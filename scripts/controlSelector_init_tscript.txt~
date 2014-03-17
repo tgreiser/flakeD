@@ -1,0 +1,12 @@
+echo `opname('../..')`
+if (`opname('../..')` != "Templates")
+	cc
+	echo $control
+	echo `opname('/defaultValue')`
+	set selected = `tab('../defaultValue',0,0)`
+	echo "Setting $selected for default"
+	
+	if ($selected)
+		tabcell selected rc 0 0 $selected
+	endif
+endif

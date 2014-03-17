@@ -1,0 +1,12 @@
+echo `opname('../..')`
+if (`opname('../..')` != "Templates")
+	cc
+	set path = "$control/dropdownbtn/defaultValue"
+	echo $path
+	set selected = `tab($path,0,0)`
+	echo "Setting $selected for default"
+	
+	if ($selected)
+		tabcell selected rc 0 0 $selected
+	endif
+endif
