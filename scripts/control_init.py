@@ -6,14 +6,24 @@
 # Make sure the corresponding toggle is enabled in the Execute DAT.
 
 def start():
-	print ("--- Initializing control "+me.parent().name)
+	name = op('selected')[0, 0]
+	print ("--- Initializing control "+me.parent().name + " - " + name)
 	slider = op('Slider')
 	mod = op('Modulate/slider1')
-	print("Slider: " + slider.name)
-	slider.panel.u.val = op('sliderPreset')[0].eval()
+
+	sliderVal = op('sliderPreset')[0].eval() if op('sliderPreset')[0].valid else 0
+	sliderRange = op('../settings')[name, 'max'] - op('../settings')[name, 'min']
+	print("Slider: " + slider.name + " range " + str(sliderRange) + " mapped " + str(sliderVal * sliderRange))
+	op('Slider/set').run(sliderVal * sliderRange)
 	print("Mod: "+mod.path)
-	mod.panel.radio.val = op('modPreset')[0].eval()
-	print("Mod value: "+str(mod.panel.radio.val))
+
+	modVal = op('modPreset')[0].eval() if op('modPreset')[0].valid else 0
+	print("Mod value: "+str(modVal))
+	#mod.panel.radio.val = modVal
+	op('Modulate/slider1/on_change').run(1, 1, modVal)
+
+	op('modPreset').par.chop = "/flaked/modulatorPresets"
+
 	return
 
 def create():
